@@ -1,0 +1,22 @@
+.services-container{
+    text-align: center;
+    transition: .6s;
+    background-color: white;
+    height: 530px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+}
+.service-img{
+    border-radius: 10px 10px 0 0;
+}
+.services-container:hover{
+    box-shadow: rgba(17, 17, 26, 0.144) 0px 0px 16px;
+    transition: .6s;
+}
+.service-content{
+    padding: 20px;
+}
+.service-p{
+    font-size: 15px;
+    color: #555;
+}
