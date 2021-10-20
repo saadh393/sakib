@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import { createUserWithEmailAndPassword, getAuth, GoogleAuthProvider, onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from "firebase/auth";
+import { useEffect, useState } from 'react';
 import initializeAuthentication from '../Firebase/firebase.init';
-import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, sendPasswordResetEmail } from "firebase/auth";
 
 initializeAuthentication();
 const useFirebase = () => {
@@ -35,7 +35,7 @@ const auth = getAuth();
     const handleEmail = e => {
         setEmail(e.target.value)
     }
-     const submitHandler = e => {
+     const submitHandler = (e) => {
         e.preventDefault()
         if(password.length < 6){
             setError('Password Must be 6 Character long')
@@ -49,10 +49,10 @@ const auth = getAuth();
 
         // login check 
         if(isLogin){
-            signInUser(email, password)
+            return signInUser(email, password)
         }
         else{
-            createUser(email, password)
+            return createUser(email, password)
         }
 
      }
@@ -73,16 +73,21 @@ const auth = getAuth();
 
     // sign in user  sign in user  sign in user  sign in user 
       const signInUser = (email, password) => {
-        signInWithEmailAndPassword(auth, email, password)
+        return signInWithEmailAndPassword(auth, email, password)
         .then(result => {
             const user = result.user;
             console.log(user)
             setError('')
+            return true;
         })
         .catch(error => {
-            setError(error.message)
+            setError(error.message);
+            return false;
         })
-        .finally(() => setIsLoading(false));
+        .finally(() => {
+            setIsLoading(false);
+            return true
+        });
       }
 
      // sign in user  sign in user  sign in user  sign in user 
@@ -90,15 +95,17 @@ const auth = getAuth();
     // create a new user create a new user  create a new user 
     const createUser = (email, password) => {
       
-        createUserWithEmailAndPassword(auth, email, password)
+        return createUserWithEmailAndPassword(auth, email, password)
         .then(result => {
             const user = result.user
             console.log(user)
             setError('')
             setNewUser()
+            return true
         })
         .catch(error => {
             setError(error.message)
+            return false
         })
        
     }

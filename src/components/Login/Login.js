@@ -1,10 +1,10 @@
 import React from 'react';
-import './Login.css';
-import img from './bg_1.jpg';
-
-import {useLocation } from 'react-router-dom';
-import {useHistory } from 'react-router';
+import { useHistory } from 'react-router';
+import { useLocation } from 'react-router-dom';
 import useAuth from '../../useAuth/useAuth';
+import img from './bg_1.jpg';
+import './Login.css';
+
 
 const Login = () => {
 
@@ -13,21 +13,27 @@ const Login = () => {
   const history = useHistory()
 
       const redirect_uri = location.state?.from || '../Home/Home';
-      console.log('came',redirect_uri)
+      const signInWithGoogle = () => {
+        googleSignIn()
+        .then(result => {
+          console.log(result.user);
+          setUser(result.user);
+          history.push(redirect_uri)          
+      }).catch(error => {
+            setError(error.message);
+      }).finally(() => setIsLoading(false));
+}
+      
+      const handleManualLogin = (e) => {
+        let val = submitHandler(e);
+        val.then(res => {
+          console.log(res);
+          if(res){
+            history.push(redirect_uri)
+          }
+        })
+        .catch(err => console.log(err))
 
-            const signInWithGoogle = () => {
-              googleSignIn()
-              .then(result => {
-                console.log(result.user);
-                setUser(result.user);
-                history.push(redirect_uri)
-                
-            })
-
-              .catch(error => {
-                  setError(error.message);
-              })
-              .finally(() => setIsLoading(false));
       }
 
       
@@ -45,7 +51,7 @@ const Login = () => {
             <div className="text-center mb-5">
               <h4 className="text-uppercase">{isLogin ? 'Login to' :  'Register to ' }  <br /><strong>Multi-Healthcare-Services </strong></h4>
             </div>
-            <form  onSubmit={submitHandler}>
+            <form  onSubmit={handleManualLogin}>
             {!isLogin &&  <div className="form-group first mb-3">
                 <label htmlFor="username">User Name</label>
                 <input onBlur={handleName}  type="text" className="form-control" placeholder="Name" id="username"  required/>
@@ -68,6 +74,7 @@ const Login = () => {
                 <span className=" ms-auto"><button className="btn btn-regular" onClick={resetPassword}>Forgot Password</button></span> 
               </div>
                <p className="text-danger">{error}</p>
+               <input type="hidden" name="redirect_uri" value={redirect_uri} />
               <button type="submit"  className="btn btn-block py-2 btn-primary mr-5 w-100 btn-regular" >{isLogin ? 'Login' : 'Register'}</button>
               
               <span className="text-center my-3 d-block">or</span>

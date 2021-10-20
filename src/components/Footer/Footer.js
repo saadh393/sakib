@@ -1,7 +1,7 @@
 import React from 'react';
 import { Col, Container, Image, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import logo from '../img/logo.png'
+import logo from '../img/logo.png';
 import './Footer.css';
 
 const Footer = () => {
@@ -32,7 +32,7 @@ const Footer = () => {
                             <h3 className="widget-title"> Find us On</h3>
                             <div className="d-flex">
                                 <Row className="p-0 m-0 widget-address">
-                                    <a href="www.facebook.com" className="m-0"> <i className="fab fa-facebook"> </i> Facebook</a>
+                                    <a href="https://www.facebook.com" target='_blank' className="m-0"> <i className="fab fa-facebook"> </i> Facebook</a>
                                     <a href="www.instagram.com"> <i className="fab fa-instagram"> </i> Instagram</a>
                                     <a href="www.twitter.com"> <i className="fab fa-twitter"> </i> Twitter</a>
                                 </Row>
